@@ -8,19 +8,18 @@ export default class SideBarButton extends Component {
     this.state = { collapse: false, active: false };
   }
 
-  toggle = () => {
-    this.setState({
-      collapse: !this.state.collapse,
-      active: !this.state.collapse && false
-    });
-  };
+  // toggle = () => {
+  //   this.setState({
+  //     collapse: !this.state.collapse,
+  //     active: !this.state.collapse && false
+  //   });
+  // };
 
-  click(index) {
+  subCatLinkClick(index) {
     this.setState({ active: index });
   }
 
   categoryFontWeight = () => {
-    console.log(this.el);
     if (this.props.index === this.props.activeIndex) {
       return { fontWeight: '700', color: 'black' };
     }
@@ -41,7 +40,7 @@ export default class SideBarButton extends Component {
     if (this.el) {
       if (!this.el.props.isOpen) {
         this.state.active = false;
-        return styles;
+        // return styles;
       }
     }
   };
@@ -62,7 +61,7 @@ export default class SideBarButton extends Component {
       <div style={{ margin: '1rem', marginLeft: '2rem' }}>
         <Link to={`/inventory/${category}`}>
           <p
-            className="mb-0 d-flex justify-content-between sidenav-btn-hover"
+            className="mb-0 mr-2 d-flex justify-content-between sidenav-btn-hover"
             style={{
               fontSize: '19px',
               cursor: 'pointer',
@@ -92,7 +91,7 @@ export default class SideBarButton extends Component {
                       cursor: 'pointer',
                       ...this.subCatFontWeight(i)
                     }}
-                    onClick={this.click.bind(this, i)}
+                    onClick={this.subCatLinkClick.bind(this, i)}
                   >
                     {a}
                   </p>

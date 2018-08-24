@@ -3,8 +3,6 @@ import {
   Container,
   Row,
   Col,
-  Card,
-  CardBody,
   Fa,
   Button,
   Input,
@@ -65,7 +63,7 @@ class ContactPage extends Component {
 
     const { name, companyName, contactEmail, number, message } = this.state;
 
-    await axios.post('/api/form', {
+    await axios.post('/create/email', {
       name,
       companyName,
       contactEmail,
@@ -80,7 +78,7 @@ class ContactPage extends Component {
         <section className="my-5">
           <h2 className="h1-responsive font-weight-bold text-center">Contact us</h2>
           <p className="text-center w-responsive mx-auto pb-5">
-            Please fill out the form below and we will get back to you as quickly as possilbe!
+            Please fill out the form below and we will get back to you as quickly as possible!
           </p>
           <Row>
             <Col md="9" className="md-0 mb-5">

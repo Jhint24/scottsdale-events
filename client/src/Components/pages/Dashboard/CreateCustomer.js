@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
 import { Container, Row, Col, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
 
@@ -40,8 +39,12 @@ export default class CreateCustomer extends Component {
     const { result, unauthorized, ...customer } = this.state;
     API.createCustomer(customer)
       .then(res => {
-        console.log(res);
-        this.setState({ result: res.data.success });
+        if (res.data.success) {
+          this.setState({ result: res.data.success });
+        }
+        if (res.data.error) {
+          this.setState({ result: res.data.error });
+        }
       })
       .catch(err => {
         console.log(err);
@@ -129,11 +132,7 @@ export default class CreateCustomer extends Component {
                   />
                 </div>
                 <div>
-                  <Button
-                    color="primary"
-                    name="update-profile"
-                    onClick={this.onSubmit}
-                  >
+                  <Button color="primary" name="update-profile" onClick={this.onSubmit}>
                     Create Customer
                   </Button>
                   {this.state.result && <p>{this.state.result}</p>}

@@ -1,13 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Container,
   Row,
   Col,
-  Card,
-  CardBody,
-  Fa,
   Button,
-  Input,
   Modal,
   ModalBody,
   ModalHeader,
@@ -23,12 +19,15 @@ class Summary extends React.Component {
     super(props);
 
     this.state = {
-      modal: false
+      modal: false,
+      shippingCost: '',
+      isActive: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
   }
 
   componentDidMount() {
@@ -44,16 +43,22 @@ class Summary extends React.Component {
       modal: !this.state.modal
     });
   }
-  // allows the form to submit on enter.
-  handleKeyPress = e => {
-    if (e.key === 'Enter') {
-      this.handleSubmit();
-    }
-  };
+
   handleSubmit = e => {
     API.getEstimate(this.props.location.state)
       .then(result => console.log(result))
       .catch(err => console.log(err));
+  };
+
+  handleCheck(event) {
+    this.state.isActive = event.target.checked;
+    this.setState({ isActive: this.state.isActive });
+  }
+
+  submitButton = () => {
+    console.log('Button Pushed');
+    this.toggle();
+    this.handleSubmit();
   };
 
   submitHandler = event => {
@@ -69,19 +74,49 @@ class Summary extends React.Component {
     console.log(this.props);
     return (
       <Container className="mt-5">
-        <Table>
-          <thead className="blue-grey lighten-4">
-            <tr>
-              <th>Summary</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>{this.props.location.state.cartProps[0].name}</th>
-              <th>{this.props.location.state.eventProps.eventCustName}</th>
-            </tr>
-          </tbody>
-        </Table>
+        <header className="text-center">Summary</header>
+        <Row>
+          <Col md="6">
+            {' '}
+            <Table>
+              <thead className="blue-grey lighten-4">
+                <tr>
+                  <th className="text-center">Items</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.props.location.state.cartProps.map((obj, index) => {
+                  return (
+                    <tr>
+                      <td key={index}> {obj.name}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </Col>
+          <Col md="6">
+            {' '}
+            <Table>
+              <thead className="blue-grey lighten-4">
+                <tr>
+                  <th className="text-center">Event</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.keys(this.props.location.state.eventProps).map((obj, index) => {
+                  console.log('obj: ', obj);
+                  return (
+                    <tr>
+                      <td key={index}> {this.props.location.state.eventProps[obj]}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+
         <Row className="mt-6">
           <Col md="">
             <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
@@ -90,6 +125,7 @@ class Summary extends React.Component {
                   type="checkbox"
                   className="custom-control-input"
                   id="customControlValidation1"
+                  onChange={event => this.handleCheck(event)}
                   required
                 />
                 <label className="custom-control-label" htmlFor="customControlValidation1">
@@ -101,8 +137,8 @@ class Summary extends React.Component {
                 to={{
                   pathname: '/checkout/event',
                   state: {
-                    cartProps: this.props.location.state.cartProps,
-                    eventProps: this.props.location.state.eventProps
+                    cartPropsBack: this.props.location.state.cartProps,
+                    eventPropsback: this.props.location.state.eventProps
                   }
                 }}
               >
@@ -110,12 +146,25 @@ class Summary extends React.Component {
                   Back
                 </Button>
               </Link>
-              <button className="btn btn-unique" onClick={this.handleSubmit}>
-                Submit Order
-              </button>
+              {this.state.isActive ? (
+                <button className="btn btn-unique" onClick={this.submitButton}>
+                  Submit Order
+                </button>
+              ) : null}
             </form>
           </Col>
         </Row>
+        <Modal isOpen={this.state.modal}>
+          <ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>
+          <ModalBody>We will be contacting you soon.</ModalBody>
+          <ModalFooter>
+            <Link to={`/`}>
+              <Button className="aButton" onClick={this.toggle}>
+                Close
+              </Button>
+            </Link>
+          </ModalFooter>
+        </Modal>
       </Container>
     );
   }
