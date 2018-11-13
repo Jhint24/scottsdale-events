@@ -5,7 +5,7 @@ Modern website for an event company that is built on React. Website features a h
 Visit the application @ {https://www.scottsdaleeventdecor.com/}
 
 
-![](https://s3-us-west-2.amazonaws.com/scottsdaleevents/carousel/Bistro1.jpg
+![](https://s3-us-west-2.amazonaws.com/scottsdaleevents/carousel/Bistro1.jpg)
 
 ## Usages
 
