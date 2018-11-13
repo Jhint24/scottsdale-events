@@ -2,10 +2,10 @@
 Modern website for an event company that is built on React. Website features a home page, gallery page, about page, and a services page. 
 
 ## Deployment
-Visit the application @ {}
+Visit the application @ {https://www.scottsdaleeventdecor.com/}
 
 
-![](client/src/images/Photos/event2.jpg)
+![](https://s3-us-west-2.amazonaws.com/scottsdaleevents/carousel/Bistro1.jpg
 
 ## Usages
 
